@@ -1,0 +1,26 @@
+{
+  "name": "SalesModule",
+  "version": "1.0.0",
+  "description": "Service that helps to create Sale Invoices and its Customer Payments",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./bin/www"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.5.0",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "bunyan": "^1.8.12",
+    "config": "^1.26.2",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.1",
+    "express-jsonschema": "^1.1.6",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
+    "tcomb-validation": "^3.4.1"
+  }
+}

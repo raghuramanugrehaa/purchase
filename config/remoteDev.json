@@ -1,0 +1,9 @@
+{
+	"myob": {
+		"host": "http://13.126.189.91:8080/",
+		"header": {
+			"accessToken": "Basic QWRtaW5pc3RyYXRvcjo=",
+			"api-version": "v2"
+		}
+	}
+}

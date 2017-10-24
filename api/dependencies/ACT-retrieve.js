@@ -19,6 +19,9 @@ var  salesheads= {
 var  paymentmodes= {
     details: []
 };
+var  taxcodes= {
+    details: []
+};
 router.get('/:companyid',function(req, res) {
   var companyid = req.params.companyid;
   // create request objects
@@ -28,6 +31,9 @@ router.get('/:companyid',function(req, res) {
     },
     { headers:header,
         url: config.get('myob.host') +"/AccountRight/"+companyid+"/Contact/Supplier?format=json"
+    } ,
+    { headers:header,
+        url: config.get('myob.host') +"/AccountRight/"+companyid+"/GeneralLedger/TaxCode?format=json"
     }
 ];
   async.map(requests, function(obj, callback) {
@@ -86,15 +92,22 @@ router.get('/:companyid',function(req, res) {
 
           });
       });
-    
-           
 
-      var response = '{"Account":' +JSON.stringify(accounts.details) +',"Suppliers":' +JSON.stringify(supply.details) +',"paymentmode":'+JSON.stringify(paymentmodes.details)+',"salesheads":'+JSON.stringify(salesheads.details)+'}';
+      results[2].Items.map(function(item) {
+         taxcodes.details.push({
+              "Name" : item.Code,
+              "UID"  : item.UID,
+              "Rate":item.Rate
+
+          });
+      });
+
+      var response = '{"Account":' +JSON.stringify(accounts.details) +',"Suppliers":' +JSON.stringify(supply.details) +',"paymentmode":'+JSON.stringify(paymentmodes.details)+',"salesheads":'+JSON.stringify(salesheads.details)+',"salesheads":'+JSON.stringify(salesheads.details)+',"TaxCode":'+JSON.stringify(taxcodes.details)+'}';
 accounts.details=[];
 supply.details=[];
 paymentmodes.details=[];
 salesheads.details=[];
-//console.log(taxcodes.details);
+taxcodes.details=[];
       res.send(JSON.parse(response));
     }
   });

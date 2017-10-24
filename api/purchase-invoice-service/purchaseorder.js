@@ -2,7 +2,7 @@ var request = require('request');
 var express = require('express');
 var config = require('config');
 var router = express.Router();
-var log=require ('../../logs/sale_invoice_logs').logs();
+///var log=require ('../../logs/sale_invoice_logs').logs();
 var header=require('../../utils/utils');
 // Retrieve all invoices for a given company
 router.get('/:companyId/order/', function(req, res) {

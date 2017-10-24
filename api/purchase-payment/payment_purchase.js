@@ -1,7 +1,7 @@
 var request = require('request');
 var express = require('express');
 var router = express.Router();
-var log=require ('../../logs/payment_logs').logs();
+//var log=require ('../../logs/payment_logs').logs();
 var config = require('config');
 var header=require('../../utils/utils');
 var async = require("async");
@@ -36,15 +36,15 @@ router.get('/:companyId/supplierPayments/:cname/:id', function(req, res) {
     var id = req.params.id;
 	var cnames=req.params.cname;
     var options = { headers: header,
-     
+
     }
 	 var requests = [
     { headers:header,
        url: config.get('myob.host') +"/AccountRight/"+companyId+"/Purchase/SupplierPayment/?$filter=Supplier/Name eq'"+cnames+"'"
     }
 ];
-	
-	
+
+
   async.map(requests, function(obj, callback) {
     // iterator function
     request(obj, function(error, response, body) {
@@ -62,17 +62,17 @@ router.get('/:companyId/supplierPayments/:cname/:id', function(req, res) {
       // handle your error
       console.log("checking"+err);
     } else {
-		
-		
+
+
 		results[0].Items.map(function(item) {
        var gem=item.Lines[0].Purchase.UID;
 	   if(gem==id){
 		   payment.details.push({
-			   
+
 			  Number:item.PaymentNumber,
               Amount:item.AmountPaid,
 				Date:item.Date
-			   
+
 		   });
 	   }
 		});
@@ -82,7 +82,7 @@ router.get('/:companyId/supplierPayments/:cname/:id', function(req, res) {
 		payment.details=[];
 	}
   });
-  
+
 
 })
 

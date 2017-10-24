@@ -9,12 +9,10 @@ var jobs=require('./saleheads').sales;
 var accounts = {
     details: []
 };
-var customer = {
+var supply = {
    details: []
 };
-var  taxcodes= {
-    details: []
-};
+
 var  salesheads= {
     details: []
 };
@@ -26,14 +24,11 @@ router.get('/:companyid',function(req, res) {
   // create request objects
   var requests = [
     { headers:header,
-        url: config.get('myob.host') +"/AccountRight/"+companyid+"/GeneralLedger/Account/?$filter=Classification eq'Income'"
+        url: config.get('myob.host') +"/AccountRight/"+companyid+"/GeneralLedger/Account/"
     },
     { headers:header,
-        url: config.get('myob.host') +"/AccountRight/"+companyid+"/Customer?format=json"
-    },
-        { headers:header,
-            url: config.get('myob.host') +"/AccountRight/"+companyid+"/GeneralLedger/TaxCode?format=json"
-        }
+        url: config.get('myob.host') +"/AccountRight/"+companyid+"/Contact/Supplier?format=json"
+    }
 ];
   async.map(requests, function(obj, callback) {
     // iterator function
@@ -85,23 +80,18 @@ router.get('/:companyid',function(req, res) {
           });
       });
       results[1].Items.map(function(item) {
-         customer.details.push({
+         supply.details.push({
               "Name" : item.CompanyName,
               "UID"  : item.UID
 
           });
       });
-      results[2].Items.map(function(item) {
-               taxcodes.details.push({
-                    "Name" : item.Code,
-                    "UID"  : item.UID
+    
+           
 
-                });
-            });
-
-      var response = '{"Account":' +JSON.stringify(accounts.details) +',"Suppliers":' +JSON.stringify(customer.details) +',"paymentmode":'+JSON.stringify(paymentmodes.details)+',"salesheads":'+JSON.stringify(salesheads.details)+'}';
+      var response = '{"Account":' +JSON.stringify(accounts.details) +',"Suppliers":' +JSON.stringify(supply.details) +',"paymentmode":'+JSON.stringify(paymentmodes.details)+',"salesheads":'+JSON.stringify(salesheads.details)+'}';
 accounts.details=[];
-customer.details=[];
+supply.details=[];
 paymentmodes.details=[];
 salesheads.details=[];
 //console.log(taxcodes.details);

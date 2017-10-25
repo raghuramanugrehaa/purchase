@@ -4,7 +4,9 @@ var router = express.Router();
 var async = require("async");
 var config = require('config');
 var header=require('../../utils/utils');
-var payments=require('./paymentmode').paymentmodes;
+var payments=require('./paymentmode').payment;
+var ship=require('./paymentmode').ship;
+var comments=require('./paymentmode').com;
 var jobs=require('./saleheads').sales;
 var accounts = {
     details: []
@@ -16,9 +18,7 @@ var supply = {
 var  salesheads= {
     details: []
 };
-var  paymentmodes= {
-    details: []
-};
+
 var  taxcodes= {
     details: []
 };
@@ -68,12 +68,12 @@ router.get('/:companyid',function(req, res) {
             });
          });
 
-       payments.map(function(item){
+  /*     payments.map(function(item){
                 paymentmodes.details.push({
 
                      "Name":item.name
                    });
-                });
+                });*/
 
 
       results[0].Items.map(function(item) {
@@ -102,10 +102,9 @@ router.get('/:companyid',function(req, res) {
           });
       });
 
-      var response = '{"Account":' +JSON.stringify(accounts.details) +',"Suppliers":' +JSON.stringify(supply.details) +',"paymentmode":'+JSON.stringify(paymentmodes.details)+',"salesheads":'+JSON.stringify(salesheads.details)+',"salesheads":'+JSON.stringify(salesheads.details)+',"TaxCode":'+JSON.stringify(taxcodes.details)+'}';
+      var response = '{"Account":' +JSON.stringify(accounts.details) +',"Suppliers":' +JSON.stringify(supply.details) +',"paymentmode":'+JSON.stringify(payments)+',"salesheads":'+JSON.stringify(salesheads.details)+',"salesheads":'+JSON.stringify(salesheads.details)+',"TaxCode":'+JSON.stringify(taxcodes.details)+',"Shipping":'+JSON.stringify(ship)+',"Comments":'+JSON.stringify(comments)+'}';
 accounts.details=[];
 supply.details=[];
-paymentmodes.details=[];
 salesheads.details=[];
 taxcodes.details=[];
       res.send(JSON.parse(response));

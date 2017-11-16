@@ -29,6 +29,26 @@ router.get('/:companyId/supplierPayments', function(req, res) {
     });
 })
 
+router.get('/:companyId/supplierPayments/:uid', function(req, res) {
+    var companyId = req.params.companyId;
+	var sid = req.params.uid;
+    var options = { headers:header,
+        url: config.get('myob.host') +"/AccountRight/"+companyId+"/Purchase/Bill/Service?$filter=Supplier/UID  eq guid'"+sid+"' and Status eq'Open'"
+    }
+
+    request.get(options, function(error, response, body) {
+        res.set('Content-Type', 'Application/json');
+        if (!error && response.statusCode == 200) {
+          //  log.info({response:body},response.statusCode);
+            res.status(response.statusCode).send(body);
+        } else {
+            //log.error({respose:body},response.statusCode);
+            res.status(response.statusCode).send(body);
+
+        }
+    });
+})
+
 //gets total details of a invoice
 router.get('/:companyId/supplierPayments/:cname/:id', function(req, res) {
 

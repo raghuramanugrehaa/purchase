@@ -36,7 +36,7 @@ var paymentmode = [{
                                 name: "C.O.D"
 
                                 },{
-                                name: "Federal EXPRESS"
+                                name: "Federal Express"
 
                                 }];
                                 var comment = [{
@@ -59,10 +59,26 @@ var paymentmode = [{
                                                 name: "Pick Your ASAP"
 
                                                 }];
+												   var Dstatus = [{
+                                                 name: "To be Printed",
+												 value:"Print"
+                                                 },{
+                                                 name: "To be Emailed",
+												 value:"Email"
+                                                },{
+                                                name: "To be Printed and Emailed",
+												value:"PrintAndEmail"
+
+                                                },{
+                                                name: "Already Printed or Sent",
+												value:"Nothing"
+
+                                                }];
 module.exports={
 payment:paymentmode,
 ship:shipping,
-com:comment
+com:comment,
+d_status:Dstatus
 
 
 
